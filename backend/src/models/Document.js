@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A standalone saved text document. Typically created by uploading a PDF and
 // extracting its text (done in the browser), then saving it here. Independent

@@ -1,8 +1,8 @@
 # Deploying My Study Guide (Real Mode)
 
-This guide publishes the **full application**: a live backend API + MongoDB database, and the frontend connected to it. You'll deploy three things:
+This guide publishes the **full application**: a live backend API + AWS DynamoDB database, and the frontend connected to it. You'll deploy three things:
 
-1. **Database** → MongoDB Atlas (free)
+1. **Database** → AWS DynamoDB (pay-per-request; generous free tier)
 2. **Backend API** → Render (free)
 3. **Frontend** → Vercel (free)
 
@@ -10,16 +10,25 @@ Do them in this order.
 
 ---
 
-## 1. Database — MongoDB Atlas
+## 1. Database — AWS DynamoDB
 
-1. Sign up at [mongodb.com/atlas](https://www.mongodb.com/atlas).
-2. Create a free **M0** cluster.
-3. **Database Access** → add a user (username + password). Save them.
-4. **Network Access** → Add IP → **Allow access from anywhere** (`0.0.0.0/0`).
-5. **Connect → Drivers** → copy the connection string and insert your password and database name:
-   ```
-   mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/mystudyguide?retryWrites=true&w=majority
-   ```
+DynamoDB is serverless — there is no cluster to provision. You only need AWS
+credentials the backend can use; the app creates its tables automatically on
+first boot (on-demand / pay-per-request billing).
+
+1. Sign in to the [AWS Console](https://console.aws.amazon.com/) and pick a region (e.g. `us-east-1`).
+2. **IAM → Users → Create user** (programmatic access). Attach a policy that
+   allows DynamoDB access — `AmazonDynamoDBFullAccess` is simplest, or scope it
+   to `CreateTable`, `DescribeTable`, and the item ops (`GetItem`, `PutItem`,
+   `DeleteItem`, `Scan`, `BatchWriteItem`) on `msg_*` tables.
+3. Create an **access key** for that user and save the **Access key ID** and
+   **Secret access key**.
+4. That's it — tables (`msg_User`, `msg_Question`, …) are created on the first
+   backend start, or you can run `npm run create-tables` manually.
+
+> **Local development:** instead of AWS, run
+> [DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
+> and set `DYNAMODB_ENDPOINT=http://localhost:8000` — no real AWS keys needed.
 
 ---
 
@@ -35,7 +44,10 @@ Do them in this order.
 
    | Key | Value |
    |-----|-------|
-   | `MONGO_URI` | your Atlas connection string |
+   | `AWS_REGION` | your DynamoDB region, e.g. `us-east-1` |
+   | `AWS_ACCESS_KEY_ID` | the IAM user's access key ID |
+   | `AWS_SECRET_ACCESS_KEY` | the IAM user's secret access key |
+   | `DYNAMODB_TABLE_PREFIX` | `msg_` (optional; namespaces the tables) |
    | `JWT_SECRET` | any long random text |
    | `JWT_EXPIRES_IN` | `7d` |
    | `CLIENT_URL` | your Vercel URL (add after step 3, e.g. `https://mystudyguideme.vercel.app`) |

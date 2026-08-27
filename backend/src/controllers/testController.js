@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import TestSeries from "../models/TestSeries.js";
 import Question from "../models/Question.js";
 import Attempt from "../models/Attempt.js";
@@ -39,7 +38,8 @@ export async function populateTest(req, res) {
   const owner = ownerValue(req); // stamp copies with the caller's space
   const scope = ownerFilter(req); // { owner: null } for admin, { owner: <id> } for a client
 
-  const oid = (v) => { try { return new mongoose.Types.ObjectId(String(v)); } catch { return null; } };
+  // Ids are plain uuid strings under DynamoDB — just normalise/validate them.
+  const oid = (v) => (v ? String(v) : null);
   const sample = async (match, count) => {
     const n = Math.max(0, Math.min(200, parseInt(count, 10) || 0));
     if (!n) return [];

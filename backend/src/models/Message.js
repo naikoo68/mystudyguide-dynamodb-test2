@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A contact-form enquiry submitted by a visitor.
 const messageSchema = new mongoose.Schema(

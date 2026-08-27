@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // An uploaded study-material file (PDF, doc, image…) under a class.
 const smFileSchema = new mongoose.Schema(

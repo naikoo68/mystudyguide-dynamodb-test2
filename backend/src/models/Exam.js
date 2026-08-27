@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Top level of the test-series hierarchy, e.g. "JKSSB", "SSC", "Banking".
 //   Exam → Post (sub-section) → Category → Tests

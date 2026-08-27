@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A sub-section / post under an exam, e.g. "Finance Account Assistant" under JKSSB.
 const examPostSchema = new mongoose.Schema(

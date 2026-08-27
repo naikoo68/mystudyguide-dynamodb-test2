@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Top level of the quiz hierarchy:
 //   Stream → Subject → Topic → Session → Quiz → Questions

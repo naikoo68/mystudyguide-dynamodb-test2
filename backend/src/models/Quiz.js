@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A quiz inside a session. Hierarchy:
 //   Subject → Topic → Session → Quiz → Questions

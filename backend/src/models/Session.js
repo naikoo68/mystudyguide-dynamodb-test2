@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A session/chapter within a topic.
 // Hierarchy: Subject → Topic → Session → Questions

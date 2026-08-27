@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Top level of the "Practice Quizzes" section: Stream → Subject → Item.
 // Separate from the main quiz Stream so practice content never mixes with it.

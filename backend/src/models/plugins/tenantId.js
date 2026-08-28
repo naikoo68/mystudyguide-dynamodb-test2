@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../../db/odm.js";
 import { getCurrentTenantId, isUnscoped } from "../../utils/tenantContext.js";
 
 // Global Mongoose plugin. Adds an optional `tenantId` to every model schema so

@@ -1,24 +1,28 @@
 {
   "name": "my-study-guide-backend",
   "version": "1.0.0",
-  "description": "REST API for My Study Guide — quizzes & test series platform",
+  "description": "REST API for My Study Guide — quizzes & test series platform (DynamoDB)",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "migrate:tenants": "node src/scripts/migrateTenants.js",
-    "seed": "node src/utils/seed.js"
+    "seed": "node src/utils/seed.js",
+    "create-tables": "node src/scripts/createTablesCli.js",
+    "migrate-from-mongo": "node src/scripts/migrateFromMongo.js"
   },
   "keywords": [
     "education",
     "quiz",
     "test-series",
     "express",
-    "mongodb"
+    "dynamodb",
+    "aws"
   ],
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.658.0",
+    "@aws-sdk/lib-dynamodb": "^3.658.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
     "cors": "^2.8.5",
@@ -28,9 +32,10 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mathjax-full": "^3.2.2",
-    "mongoose": "^8.8.0",
+    "mongodb": "^6.9.0",
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
-    "nodemailer": "^9.0.3"
+    "nodemailer": "^9.0.3",
+    "uuid": "^9.0.1"
   }
 }

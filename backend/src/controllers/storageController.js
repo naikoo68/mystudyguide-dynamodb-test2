@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 import Attempt from "../models/Attempt.js";
 import PublicAttempt from "../models/PublicAttempt.js";
 import CbtAttempt from "../models/CbtAttempt.js";

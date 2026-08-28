@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A question is either:
 //  - "mcq":      4 options + a correct index

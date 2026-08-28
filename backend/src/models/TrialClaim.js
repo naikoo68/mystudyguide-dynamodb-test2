@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Durable, platform-wide record that an EMAIL has consumed a free trial — so the
 // same email can't claim the trial again even after deleting and recreating an

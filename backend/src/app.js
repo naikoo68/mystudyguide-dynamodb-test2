@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import mongoose from "./db/odm.js";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";

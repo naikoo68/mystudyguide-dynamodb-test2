@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A candidate's registration for the exam PORTAL. Registration happens once on
 // the portal web page: the student enters name + email and verifies a one-time

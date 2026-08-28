@@ -197,7 +197,24 @@ async function start() {
     console.log(`✔ My Study Guide API running on http://localhost:${PORT}`);
   });
 
-  // Migrate Settings uniqueness to per-tenant (one-time, idempotent).
+  // One-time data import from an existing MongoDB. When RUN_MONGO_MIGRATION is
+  // "true" (and MONGO_URI is set), copy everything from the old MongoDB into
+  // DynamoDB (replacing sample data) and SKIP the normal bootstrap. Remove the
+  // RUN_MONGO_MIGRATION variable afterwards.
+  if (process.env.RUN_MONGO_MIGRATION === "true" && process.env.MONGO_URI) {
+    console.log("↻ RUN_MONGO_MIGRATION is on — importing your existing MongoDB data…");
+    import("./scripts/migrateFromMongo.js")
+      .then(({ migrateFromMongo }) => migrateFromMongo(process.env.MONGO_URI))
+      .then((s) => {
+        console.log("✅ MongoDB → DynamoDB import complete.", JSON.stringify(s.imported));
+        console.log("👉 Now REMOVE the RUN_MONGO_MIGRATION variable (and MONGO_URI) in your host settings.");
+      })
+      .catch((err) => console.error("✖ MongoDB import failed (nothing was cleared if it couldn't connect):", err.message));
+    return; // skip the sample-data bootstrap while importing
+  }
+
+  // (DynamoDB) Settings uses no secondary indexes, so the legacy index
+  // migration is a no-op here.
   ensureSettingsIndexes();
 
   // Clear legacy empty customDomain values so a 2nd institute can be created.
@@ -215,8 +232,9 @@ async function start() {
   // Hide the first-run setup guide from existing creators (new sign-ups only).
   grandfatherCreatorGuide();
 
-  // Assign existing data to the default institute (one-time multi-tenant backfill).
-  backfillTenantsOnce();
+  // (DynamoDB) The multi-tenant backfill is a MongoDB-specific index/backfill
+  // step; skipped here since tenant scoping is off by default (single institute).
+  // backfillTenantsOnce();
 
   // Facebook scheduled auto-posting: check every minute for due schedules.
   // (The /api/health ping also triggers this as a safety net after downtime.)

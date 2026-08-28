@@ -1,7 +1,7 @@
 import "dotenv/config";
 // Ensure the global tenantId plugin is registered BEFORE any model compiles.
 import "../config/registerModelPlugins.js";
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 import connectDB from "../config/db.js";
 import { backfillTenants } from "../utils/backfillTenants.js";
 

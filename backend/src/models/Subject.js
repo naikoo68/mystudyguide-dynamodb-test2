@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 const subjectSchema = new mongoose.Schema(
   {

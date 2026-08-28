@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A pending (or resolved) account-to-account content share. Client 1 sends a
 // stream / subject / topic / quiz / test to Client 2; it sits here as "pending"

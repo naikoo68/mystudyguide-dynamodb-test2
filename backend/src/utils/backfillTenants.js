@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 import Tenant from "../models/Tenant.js";
 import Settings from "../models/Settings.js";
 

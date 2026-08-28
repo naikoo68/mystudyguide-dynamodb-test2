@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A lightweight Companion activity record (per user) — powers "Companion
 // History". One row per meaningful action (saved quiz, summary, flashcards,

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Records a user's quiz or test attempt and computed result.
 const attemptSchema = new mongoose.Schema(

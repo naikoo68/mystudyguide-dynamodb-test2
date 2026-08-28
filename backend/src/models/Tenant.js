@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A TENANT is one institute in the multi-tenant SaaS. Every tenant-owned
 // document (users, questions, tests, settings, …) will carry this tenant's _id

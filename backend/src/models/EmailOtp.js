@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Standalone email-verification codes for sign-up flows where the user account
 // doesn't exist yet — e.g. public institute self-signup, where the admin user

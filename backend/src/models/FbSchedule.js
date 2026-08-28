@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A scheduled Facebook auto-post rule. At each scheduled time it picks a
 // question from the chosen content scope (subject / session / quiz / test) and

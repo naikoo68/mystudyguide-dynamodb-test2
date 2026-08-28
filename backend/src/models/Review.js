@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A review submitted by a student or client from the public site. Reviews start
 // as "pending" and only appear on the home page after an admin approves them

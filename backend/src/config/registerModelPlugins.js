@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 import tenantIdPlugin from "../models/plugins/tenantId.js";
 
 // Register the tenant plugin GLOBALLY, before any model schema is compiled, so

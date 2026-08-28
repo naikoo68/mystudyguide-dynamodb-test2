@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A completion of a CBT (Computer-Based Test) online exam. Unlike an anonymous
 // public share (PublicAttempt), a CBT taker signs in with their name + email

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 const socialSchema = new mongoose.Schema(
   { platform: { type: String, default: "website" }, url: { type: String, default: "" } },

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Top level of Study Material: a University or School.
 //   Institution → Subject → Class → Files

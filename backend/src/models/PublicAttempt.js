@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A completion of a PUBLIC (no-login) shared quiz/test. Public takers have no
 // account, so nothing is stored against a user — just the anonymous result, so

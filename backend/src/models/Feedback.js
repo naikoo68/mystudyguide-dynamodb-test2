@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Student feedback — either about a specific question, or an overall quiz/test.
 const feedbackSchema = new mongoose.Schema(

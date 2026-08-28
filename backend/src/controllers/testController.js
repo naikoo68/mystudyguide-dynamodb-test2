@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 import crypto from "crypto";
 import TestSeries from "../models/TestSeries.js";
 import Question from "../models/Question.js";
@@ -46,7 +46,7 @@ export async function populateTest(req, res) {
   const owner = ownerValue(req); // stamp copies with the caller's space
   const scope = ownerFilter(req); // { owner: null } for admin, { owner: <id> } for a client
 
-  const oid = (v) => { try { return new mongoose.Types.ObjectId(String(v)); } catch { return null; } };
+  const oid = (v) => (v ? String(v) : null);
   const sample = async (match, count) => {
     const n = Math.max(0, Math.min(200, parseInt(count, 10) || 0));
     if (!n) return [];
@@ -122,7 +122,7 @@ export async function autoBuildTest(req, res) {
   const scope = ownerFilter(req);
   const ALLOWED_TYPES = ["mcq", "numericalmcq", "matching", "statement", "pair", "pairselect", "image", "table", "assertion", "journal", "ledger", "rearrange", "diagram"];
   const DIFFS = ["Easy", "Medium", "Hard"];
-  const oid = (v) => { try { return new mongoose.Types.ObjectId(String(v)); } catch { return null; } };
+  const oid = (v) => (v ? String(v) : null);
 
   const toCopy = (q, section) => {
     const doc = { testSeries: test._id, status: "published", owner };

@@ -37,9 +37,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-          cache-dependency-path: backend/package-lock.json
-      - run: npm ci
+      # Uses `npm install` (not `npm ci`) so the lockfile is generated/refreshed
+      # on the runner. Run `npm install` locally once and commit the resulting
+      # backend/package-lock.json if you'd like fully reproducible installs.
+      - run: npm install
       - name: Syntax-check all source files
         run: |
           set -e

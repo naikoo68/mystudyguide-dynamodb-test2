@@ -24,9 +24,23 @@ npm run dev                 # starts on http://localhost:5000
 ```
 
 > Requires AWS DynamoDB access (set `AWS_REGION` + credentials), **or** a local
-> DynamoDB for offline dev — start DynamoDB Local and set
-> `DYNAMODB_ENDPOINT=http://localhost:8000` in `.env` (throw-away credentials are
-> used automatically). Tables are created automatically on startup.
+> DynamoDB for offline dev. Tables are created automatically on startup.
+
+#### Offline / no‑AWS: one‑command local database
+
+If you have Docker installed you don't need an AWS account to try the app:
+
+```bash
+cd backend
+docker compose up -d                          # starts DynamoDB Local on :8000
+# in backend/.env set: DYNAMODB_ENDPOINT=http://localhost:8000
+npm install
+npm run seed                                  # creates tables + sample data
+npm run dev                                    # http://localhost:5000
+```
+
+Throw‑away credentials are used automatically in local mode. Stop the database
+later with `docker compose down`.
 
 ### Data layer notes
 

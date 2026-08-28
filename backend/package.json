@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/utils/seed.js",
-    "create-tables": "node src/scripts/createTablesCli.js"
+    "create-tables": "node src/scripts/createTablesCli.js",
+    "migrate-from-mongo": "node src/scripts/migrateFromMongo.js"
   },
   "keywords": [
     "education",
@@ -30,6 +31,7 @@
     "express-rate-limit": "^7.4.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.9.0",
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
     "nodemailer": "^9.0.3",

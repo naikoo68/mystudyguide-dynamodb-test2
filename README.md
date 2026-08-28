@@ -6,22 +6,23 @@ Blue/white/orange theme, dark + light mode, smooth animations, charts, dashboard
 ```
 .
 ├── frontend/      # React + Vite + Tailwind CSS (UI for all modules)
-├── backend/       # Node.js + Express + MongoDB REST API (JWT auth, Cloudinary)
+├── backend/       # Node.js + Express + DynamoDB REST API (JWT auth, Cloudinary)
 └── DEPLOYMENT.md  # Step-by-step guide to publish the full app online
 ```
 
 > **Real mode is wired up:** the frontend talks to the backend API for real login/registration
 > (JWT), database-backed subjects, sessions, questions, quiz attempts, test grading, dashboard
 > analytics, leaderboard, and the admin panel. Set `VITE_API_URL` in the frontend and run the
-> backend with a MongoDB connection. See **[DEPLOYMENT.md](DEPLOYMENT.md)** to go live.
+> backend with a DynamoDB connection (AWS or DynamoDB Local). See **[DEPLOYMENT.md](DEPLOYMENT.md)** to go live.
 
 ## 🚀 Run locally (real mode)
 
 ```bash
-# 1) Backend  (needs a MongoDB connection string)
+# 1) Backend  (needs AWS DynamoDB, or DynamoDB Local for offline dev)
 cd backend
 npm install
-cp .env.example .env          # set MONGO_URI and JWT_SECRET
+cp .env.example .env          # set AWS_REGION + credentials (or DYNAMODB_ENDPOINT), JWT_SECRET
+npm run create-tables         # provision DynamoDB tables (idempotent)
 npm run seed                  # sample data + admin/student logins
 npm run dev                   # http://localhost:5000
 
@@ -80,7 +81,7 @@ The frontend runs fully standalone using local sample data, so you can explore e
 ```bash
 cd backend
 npm install
-cp .env.example .env     # fill MONGO_URI, JWT_SECRET, Cloudinary keys
+cp .env.example .env     # fill AWS/DynamoDB config, JWT_SECRET, Cloudinary keys
 npm run seed             # sample data + admin@mystudyguide.com / admin123
 npm run dev              # http://localhost:5000
 ```
@@ -92,7 +93,7 @@ See [`backend/README.md`](backend/README.md) for the full API reference.
 | Layer | Tech |
 |-------|------|
 | Frontend | React, Vite, Tailwind CSS, React Router, Chart.js, lucide-react |
-| Backend | Node.js, Express, MongoDB (Mongoose), JWT, bcrypt, Cloudinary, Multer |
+| Backend | Node.js, Express, AWS DynamoDB (custom Mongoose-compatible ODM), JWT, bcrypt, Cloudinary, Multer |
 | Cross-cutting | Dark/light mode, responsive design, SEO meta tags, role-based auth |
 
 ## 🔗 Connecting frontend to backend

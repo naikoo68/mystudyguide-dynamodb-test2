@@ -1,0 +1,21 @@
+# One-command local database for offline development.
+#
+#   docker compose up -d        # start DynamoDB Local on http://localhost:8000
+#   docker compose down         # stop it
+#
+# Then, in backend/.env set:  DYNAMODB_ENDPOINT=http://localhost:8000
+# and run:  npm run seed  &&  npm run dev
+# (Tables are created automatically; throw-away AWS credentials are used.)
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: mystudyguide-dynamodb
+    ports:
+      - "8000:8000"
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "/home/dynamodblocal/data"]
+    working_dir: /home/dynamodblocal
+    volumes:
+      - dynamodb-data:/home/dynamodblocal/data
+
+volumes:
+  dynamodb-data:

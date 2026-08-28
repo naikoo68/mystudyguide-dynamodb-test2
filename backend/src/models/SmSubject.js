@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A subject under a study-material institution, e.g. "Mathematics".
 const smSubjectSchema = new mongoose.Schema(

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Topic inside a Practice subject — used ONLY by the "My Quiz" sub-module
 // (Stream → Subject → Topic → Quiz). "My Test Series" has no topic level.

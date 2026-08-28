@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Subject inside a Practice stream. Holds the practice items (quizzes/tests).
 const practiceSubjectSchema = new mongoose.Schema(

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // Admin-managed discount coupons applied at Client registration checkout.
 // type "percent" → value is a % off; type "flat" → value is a ₹ amount off.

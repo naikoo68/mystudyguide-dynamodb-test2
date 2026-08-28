@@ -46,6 +46,22 @@ async function start() {
     console.log(`✔ My Study Guide API running on http://localhost:${PORT}`);
   });
 
+  // One-time data import from an existing MongoDB. When RUN_MONGO_MIGRATION is
+  // "true" (and MONGO_URI is set), copy everything from the old MongoDB into
+  // DynamoDB (replacing the sample data) and SKIP the normal seed/bootstrap so
+  // nothing interferes. Remove the RUN_MONGO_MIGRATION variable once it's done.
+  if (process.env.RUN_MONGO_MIGRATION === "true" && process.env.MONGO_URI) {
+    console.log("↻ RUN_MONGO_MIGRATION is on — importing your existing MongoDB data…");
+    import("./scripts/migrateFromMongo.js")
+      .then(({ migrateFromMongo }) => migrateFromMongo(process.env.MONGO_URI))
+      .then((summary) => {
+        console.log("✅ MongoDB → DynamoDB import complete.", JSON.stringify(summary.imported));
+        console.log("👉 You can now REMOVE the RUN_MONGO_MIGRATION variable (and MONGO_URI) in your host settings.");
+      })
+      .catch((err) => console.error("✖ MongoDB import failed (nothing was cleared if it couldn't connect):", err.message));
+    return; // skip the sample-data bootstrap below while importing
+  }
+
   // Make existing test series private (one-time).
   privatizeExistingTests();
 

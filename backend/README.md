@@ -1,11 +1,12 @@
 # My Study Guide — Backend API
 
-REST API for the My Study Guide platform, built with **Node.js + Express + MongoDB (Mongoose)**, JWT authentication, role-based authorization, and Cloudinary uploads.
+REST API for the My Study Guide platform, built with **Node.js + Express + AWS DynamoDB**, JWT authentication, role-based authorization, and Cloudinary uploads.
 
 ## Tech Stack
 
 - **Express 4** — HTTP server & routing
-- **MongoDB + Mongoose 8** — database & ODM
+- **AWS DynamoDB** (`@aws-sdk/lib-dynamodb`) — database
+- **Custom Mongoose-compatible ODM** (`src/db/`) — Schema/model API over DynamoDB
 - **JWT (jsonwebtoken)** — stateless auth
 - **bcryptjs** — password hashing
 - **Cloudinary + Multer** — image/file uploads
@@ -17,11 +18,41 @@ REST API for the My Study Guide platform, built with **Node.js + Express + Mongo
 cd backend
 npm install
 cp .env.example .env        # then fill in the values
+npm run create-tables       # provision DynamoDB tables (idempotent; also runs on boot)
 npm run seed                # optional: load sample data
 npm run dev                 # starts on http://localhost:5000
 ```
 
-> Requires a running MongoDB instance (local or MongoDB Atlas). Set `MONGO_URI` in `.env`.
+> Requires AWS DynamoDB access (set `AWS_REGION` + credentials), **or** a local
+> DynamoDB for offline dev. Tables are created automatically on startup.
+
+#### Offline / no‑AWS: one‑command local database
+
+If you have Docker installed you don't need an AWS account to try the app:
+
+```bash
+cd backend
+docker compose up -d                          # starts DynamoDB Local on :8000
+# in backend/.env set: DYNAMODB_ENDPOINT=http://localhost:8000
+npm install
+npm run seed                                  # creates tables + sample data
+npm run dev                                    # http://localhost:5000
+```
+
+Throw‑away credentials are used automatically in local mode. Stop the database
+later with `docker compose down`.
+
+### Data layer notes
+
+The app originally used MongoDB/Mongoose. It now runs on DynamoDB via a small
+Mongoose-compatibility ODM in `src/db/` (`Schema`, `model`, documents with
+`.save()`/hooks/methods, chainable `find/sort/limit/select/populate`, a focused
+`aggregate` interpreter, and Mongo-style query/update operators). Storage is one
+table per model, keyed by a uuid `_id`. Reads other than get-by-id use Scan +
+in-memory filtering, which preserves Mongoose query semantics; for larger
+datasets, add Global Secondary Indexes in `src/db/createTables.js` and teach the
+ODM to Query instead of Scan. Full-text question search falls back to in-memory
+word matching (see `searchController`).
 
 Seeded credentials:
 - Admin: `admin@mystudyguide.com` / `admin123`
@@ -31,14 +62,16 @@ Seeded credentials:
 
 ```
 src/
-├── config/        # db & cloudinary configuration
+├── config/        # dynamo client, cloudinary, mailer, etc.
+├── db/            # DynamoDB ODM (odm.js, helpers.js, aggregate.js, createTables.js)
 ├── controllers/   # request handlers (business logic)
 ├── middleware/    # auth (protect/authorize) & error handling
-├── models/        # Mongoose schemas
+├── models/        # schema definitions (Mongoose-compatible API over DynamoDB)
 ├── routes/        # Express routers
+├── scripts/       # create-tables CLI & ODM verification harness
 ├── utils/         # token generation & seed script
 ├── app.js         # express app (middleware + routes)
-└── server.js      # entry point (connects DB, starts server)
+└── server.js      # entry point (ensures tables, starts server)
 ```
 
 ## API Overview

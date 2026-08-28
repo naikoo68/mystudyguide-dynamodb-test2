@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // A short announcement/notice shown in the scrolling ticker at the top of the
 // site. Admins add, edit, delete and toggle these. Only `active` notices are

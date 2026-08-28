@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../db/odm.js";
 
 // An AI provider API key managed from the admin panel. Each key has its own
 // base URL and model list (OpenAI-compatible). The AI generator uses all
